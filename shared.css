@@ -1,0 +1,156 @@
+/* ── Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap');
+
+/* ── Design Tokens ── */
+:root {
+  --bg:      #ffffff;
+  --fg:      #2c2c2c;
+  --fg-dim:  #6b6b6b;
+  --accent:  #4a4a4a;
+  --accent-dim: rgba(74, 74, 74, 0.08);
+  --surface: rgba(255, 255, 255, 0.92);
+  --font-heading: 'IBM Plex Mono', 'Menlo', monospace;
+  --font-body:    'IBM Plex Mono', 'Menlo', monospace;
+  --max-prose: 680px;
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 6rem;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+/* ── Typography ── */
+h1 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: var(--space-sm);
+}
+
+p { margin-bottom: var(--space-sm); }
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s;
+}
+a:hover { opacity: 0.75; }
+
+/* ── Shared Components ── */
+
+/* Warning block */
+.warning {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-dim);
+  padding: var(--space-sm) var(--space-md);
+  margin: var(--space-md) 0;
+  font-size: 0.875rem;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Outbound link */
+.link-out {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: 0.875rem;
+}
+.link-out::after {
+  content: '↗';
+  font-size: 0.75em;
+  opacity: 0.6;
+}
+
+/* FAQ list */
+.faq-list { margin-top: var(--space-md); }
+
+.faq-list dt {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--fg);
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.faq-list dt:first-child {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.faq-list dd {
+  margin-top: var(--space-xs);
+  color: var(--fg-dim);
+  font-size: 0.875rem;
+  line-height: 1.75;
+}
+
+/* ── Scroll Reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Scroll hint animation ── */
+@keyframes pulse-line {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+  50%      { opacity: 1;   transform: scaleY(1); }
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.scroll-hint span {
+  display: block;
+  width: 2px;
+  height: 32px;
+  background: var(--accent);
+  animation: pulse-line 2s ease-in-out infinite;
+}
+.scroll-hint small {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--fg-dim);
+}

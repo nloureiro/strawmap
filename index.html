@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strawmap — Ethereum Draft Roadmap</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: var(--space-md);
+    }
+
+    .landing {
+      max-width: 540px;
+      text-align: center;
+    }
+
+    .landing h1 {
+      margin-bottom: var(--space-xs);
+    }
+
+    .landing .subtitle {
+      color: var(--fg-dim);
+      font-size: 0.875rem;
+      margin-bottom: var(--space-lg);
+    }
+
+    .options {
+      display: flex;
+      gap: var(--space-md);
+      justify-content: center;
+    }
+
+    .option {
+      flex: 1;
+      max-width: 220px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 6px;
+      padding: var(--space-md);
+      text-decoration: none;
+      color: var(--fg);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .option:hover {
+      border-color: var(--accent);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      opacity: 1;
+    }
+
+    .option h2 {
+      color: var(--fg);
+      margin-bottom: var(--space-xs);
+    }
+
+    .option p {
+      color: var(--fg-dim);
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="landing">
+    <h1>Strawmap</h1>
+    <p class="subtitle">Ethereum Draft Roadmap — two layout options</p>
+
+    <div class="options">
+      <a href="v1.html" class="option">
+        <h2>Scroll</h2>
+        <p>Full-page layout with the map at the top and content below as you scroll down.</p>
+      </a>
+      <a href="v2.html" class="option">
+        <h2>Sidebar</h2>
+        <p>Full-screen map with a sliding sidebar overlay for context and FAQ.</p>
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>
