@@ -40,15 +40,21 @@
       position: relative;
       height: 100vh;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 3.5rem 1rem 1rem;
+      flex-direction: column;
       overflow: hidden;
     }
     .hero img {
-      max-width: 100%;
-      max-height: 100%;
+      flex: 1;
+      min-height: 0;
+      width: 100%;
       object-fit: contain;
+      padding: 1rem;
+    }
+    .hero .scroll-hint {
+      position: static;
+      transform: none;
+      height: 50px;
+      flex-shrink: 0;
     }
 
     /* ── Content ── */
@@ -78,12 +84,6 @@
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="header">
-    <a href="/" class="site-name">Strawmap</a>
-    <nav><a href="v2.html">Try immersive view ↗</a></nav>
-  </header>
-
   <!-- Hero -->
   <section class="hero">
     <img
@@ -93,7 +93,7 @@
     >
     <div class="scroll-hint">
       <span></span>
-      <small>Scroll</small>
+      <small>Scroll to see more information</small>
     </div>
   </section>
 
@@ -184,7 +184,7 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <a href="v2.html">Try the immersive view →</a>
+    <a href="v2.html">Full version →</a>
   </footer>
 
   <!-- Scroll reveal -->
