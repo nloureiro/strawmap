@@ -6,39 +6,58 @@
   <title>Strawmap — Ethereum Draft Roadmap</title>
   <link rel="stylesheet" href="shared.css">
   <style>
-    /* ── Header ── */
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
+    /* ── Site Header ── */
+    .site-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 0.75rem 1.5rem;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(8px);
+      gap: 1.25rem;
+      padding: 1rem 1.5rem;
       border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-      font-size: 0.8125rem;
     }
-    .header .site-name {
-      font-family: var(--font-heading);
-      font-size: 1.125rem;
+    .site-header .eth-logo {
+      height: 36px;
+      width: auto;
+      flex-shrink: 0;
+    }
+    .site-header .header-title {
+      font-size: 1.5rem;
+      font-weight: 400;
       color: var(--fg);
-      text-decoration: none;
+      line-height: 1.2;
     }
-    .header nav a {
+    .site-header .header-title span {
       color: var(--fg-dim);
-      text-decoration: none;
-      font-size: 0.8125rem;
+      font-weight: 400;
     }
-    .header nav a:hover { color: var(--accent); }
+    .site-header .header-title a {
+      color: var(--fg);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .site-header .header-meta {
+      margin-left: auto;
+      display: flex;
+      gap: 2.5rem;
+      font-size: 0.75rem;
+      color: var(--fg-dim);
+      flex-shrink: 0;
+    }
+    .site-header .header-meta div {
+      line-height: 1.5;
+    }
+    .site-header .header-meta .label {
+      color: var(--fg-dim);
+    }
+    .site-header .header-meta a {
+      color: var(--fg);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
 
     /* ── Hero ── */
     .hero {
       position: relative;
-      height: 100vh;
+      height: calc(100vh - 62px);
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -53,7 +72,7 @@
     .hero .scroll-hint {
       position: static;
       transform: none;
-      height: 50px;
+      height: 100px;
       flex-shrink: 0;
     }
 
@@ -80,14 +99,37 @@
       font-size: 0.8125rem;
       color: var(--fg-dim);
     }
+
+    @media (max-width: 768px) {
+      .site-header { flex-wrap: wrap; gap: 0.75rem; }
+      .site-header .header-meta { gap: 1.5rem; margin-left: 0; }
+    }
   </style>
 </head>
 <body>
 
+  <!-- Header -->
+  <header class="site-header">
+    <img src="eth.svg" alt="Ethereum" class="eth-logo">
+    <div class="header-title">
+      L1 strawmap <span>by</span> <a href="https://protocol.ethereum.org">EF Protocol</a>
+    </div>
+    <div class="header-meta">
+      <div>
+        <div class="label">maintained by EF Architecture</div>
+        <div><a href="#">Ansgar</a>, <a href="#">Barnab&eacute;</a>, <a href="#">Francesco</a>, <a href="#">Justin</a></div>
+      </div>
+      <div>
+        <div class="label">updated</div>
+        <div>Feb 18, 2026</div>
+      </div>
+    </div>
+  </header>
+
   <!-- Hero -->
   <section class="hero">
     <img
-      src="https://docs.google.com/drawings/d/e/2PACX-1vTKUmQ-pIM1JFf5HEkDpKVt7OlROp7f1EtsuYffr83uE7DtXmREyFiMTqkiuMCOrvZcXKH1U5wgUP_g/pub?w=2964&h=2396"
+      src="https://docs.google.com/drawings/d/e/2PACX-1vQdI5g1Dnk-Qv9NhLi0jsE5O80NplM2MP8Lc8Q1b2wDc4ah7B1YgpSuj8vBfvdmNISEK4KOSz44rjMg/pub?w=2964&h=2396"
       alt="Ethereum Strawmap — Draft Roadmap"
       draggable="false"
     >
@@ -184,7 +226,7 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <a href="v2.html">Full version →</a>
+    <a href="v4.html">Full version →</a>
   </footer>
 
   <!-- Scroll reveal -->

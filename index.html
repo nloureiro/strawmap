@@ -15,7 +15,7 @@
     }
 
     .landing {
-      max-width: 540px;
+      max-width: 680px;
       text-align: center;
     }
 
@@ -29,10 +29,19 @@
       margin-bottom: var(--space-lg);
     }
 
+    .section-label {
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--fg-dim);
+      margin-bottom: var(--space-sm);
+    }
+
     .options {
       display: flex;
       gap: var(--space-md);
       justify-content: center;
+      margin-bottom: var(--space-lg);
     }
 
     .option {
@@ -68,16 +77,29 @@
 
   <div class="landing">
     <h1>Strawmap</h1>
-    <p class="subtitle">Ethereum Draft Roadmap — two layout options</p>
+    <p class="subtitle">Ethereum Draft Roadmap — layout options</p>
 
+    <p class="section-label">Without header</p>
     <div class="options">
       <a href="v1.html" class="option">
-        <h2>Scroll</h2>
+        <h2>V1 — Scroll</h2>
         <p>Full-page layout with the map at the top and content below as you scroll down.</p>
       </a>
       <a href="v2.html" class="option">
-        <h2>Sidebar</h2>
+        <h2>V2 — Sidebar</h2>
         <p>Full-screen map with a sliding sidebar overlay for context and FAQ.</p>
+      </a>
+    </div>
+
+    <p class="section-label">With header</p>
+    <div class="options">
+      <a href="v3.html" class="option">
+        <h2>V3 — Scroll</h2>
+        <p>Scroll layout with the L1 strawmap header bar, logo, and metadata.</p>
+      </a>
+      <a href="v4.html" class="option">
+        <h2>V4 — Sidebar</h2>
+        <p>Sidebar overlay with the L1 strawmap header bar, logo, and metadata.</p>
       </a>
     </div>
   </div>
