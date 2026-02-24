@@ -74,20 +74,87 @@
       text-underline-offset: 2px;
     }
 
-    /* ── Full-screen map ── */
+    /* ── Full-screen PDF ── */
     .map {
       position: fixed;
       inset: 0;
       top: 52px;
+      overflow: hidden;
+      background: #fff;
+    }
+    #pdf-wrapper {
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1rem;
+      transform-origin: center center;
+      transition: transform 0.2s ease;
+      cursor: grab;
     }
-    .map img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+    #pdf-wrapper.dragging {
+      cursor: grabbing;
+      transition: none;
+    }
+    #pdf-container {
+      position: relative;
+    }
+    #pdf-container canvas {
+      display: block;
+    }
+    #pdf-container .annotationLayer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    #pdf-container .annotationLayer a {
+      position: absolute;
+      display: block;
+    }
+    #pdf-container .annotationLayer section {
+      position: absolute;
+    }
+
+    /* ── Zoom controls ── */
+    .zoom-controls {
+      position: fixed;
+      right: 1.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      padding: 0.25rem;
+    }
+    .zoom-controls button {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: transparent;
+      color: var(--fg);
+      font-size: 1.125rem;
+      font-family: var(--font-body);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+    .zoom-controls button:hover {
+      background: rgba(0, 0, 0, 0.06);
+    }
+    .zoom-controls .divider {
+      height: 1px;
+      background: rgba(0, 0, 0, 0.1);
+      margin: 0.125rem 0;
     }
 
     /* ── Toggle button ── */
@@ -201,22 +268,31 @@
     </div>
   </header>
 
-  <!-- Full-screen map -->
-  <div class="map">
-    <img
-      src="https://docs.google.com/drawings/d/e/2PACX-1vQdI5g1Dnk-Qv9NhLi0jsE5O80NplM2MP8Lc8Q1b2wDc4ah7B1YgpSuj8vBfvdmNISEK4KOSz44rjMg/pub?w=2964&h=2396"
-      alt="Ethereum Strawmap — Draft Roadmap"
-      draggable="false"
-    >
+  <!-- Full-screen PDF -->
+  <div class="map" id="mapContainer">
+    <div id="pdf-wrapper">
+      <div id="pdf-container">
+        <canvas id="pdfCanvas"></canvas>
+        <div class="annotationLayer" id="annotationLayer"></div>
+      </div>
+    </div>
   </div>
 
+  <!-- Zoom controls -->
+  <div class="zoom-controls">
+    <button id="zoomIn" title="Zoom in">+</button>
+    <div class="divider"></div>
+    <button id="zoomReset" title="Reset zoom">1:1</button>
+    <div class="divider"></div>
+    <button id="zoomOut" title="Zoom out">&minus;</button>
+  </div>
 
   <!-- Scrim -->
   <div class="scrim" id="scrim"></div>
 
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar" role="complementary" aria-label="About the Strawmap">
-    <button class="sidebar-close" id="closeBtn" aria-label="Close sidebar">Close ×</button>
+    <button class="sidebar-close" id="closeBtn" aria-label="Close sidebar">Close &times;</button>
 
     <h1>Welcome to the Strawmap</h1>
     <p class="intro">
@@ -289,6 +365,121 @@
     </dl>
 
   </aside>
+
+  <script type="module">
+    const pdfjsLib = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.min.mjs');
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs';
+
+    const pdf = await pdfjsLib.getDocument('strawmap.pdf').promise;
+    const page = await pdf.getPage(1);
+
+    const container = document.getElementById('mapContainer');
+    const wrapper = document.getElementById('pdf-wrapper');
+    const pdfContainer = document.getElementById('pdf-container');
+    const canvas = document.getElementById('pdfCanvas');
+    const annotLayer = document.getElementById('annotationLayer');
+    const ctx = canvas.getContext('2d');
+
+    let zoomLevel = 1;
+    let panX = 0, panY = 0;
+
+    function applyTransform() {
+      wrapper.style.transform = `translate(${panX}px, ${panY}px) scale(${zoomLevel})`;
+    }
+
+    async function renderPage() {
+      const dpr = window.devicePixelRatio || 1;
+      const renderScale = 3;
+      const containerW = container.clientWidth;
+      const containerH = container.clientHeight;
+      const viewport = page.getViewport({ scale: 1 });
+      const cssScale = Math.min(containerW / viewport.width, containerH / viewport.height);
+      const scaledViewport = page.getViewport({ scale: cssScale });
+      const hiResViewport = page.getViewport({ scale: cssScale * renderScale });
+
+      canvas.width = hiResViewport.width;
+      canvas.height = hiResViewport.height;
+      canvas.style.width = scaledViewport.width + 'px';
+      canvas.style.height = scaledViewport.height + 'px';
+      pdfContainer.style.width = scaledViewport.width + 'px';
+      pdfContainer.style.height = scaledViewport.height + 'px';
+
+      await page.render({ canvasContext: ctx, viewport: hiResViewport }).promise;
+
+      // Render clickable link annotations
+      annotLayer.innerHTML = '';
+      const annotations = await page.getAnnotations();
+      annotations.forEach(ann => {
+        if (ann.subtype !== 'Link' || !ann.url) return;
+        const rect = ann.rect;
+        const [x1, y1, x2, y2] = pdfjsLib.Util.normalizeRect(
+          scaledViewport.convertToViewportRectangle(rect)
+        );
+        const link = document.createElement('a');
+        link.href = ann.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.style.left = x1 + 'px';
+        link.style.top = y1 + 'px';
+        link.style.width = (x2 - x1) + 'px';
+        link.style.height = (y2 - y1) + 'px';
+        annotLayer.appendChild(link);
+      });
+    }
+
+    // Zoom controls
+    document.getElementById('zoomIn').addEventListener('click', () => {
+      zoomLevel = Math.min(zoomLevel + 0.25, 5);
+      applyTransform();
+    });
+    document.getElementById('zoomOut').addEventListener('click', () => {
+      zoomLevel = Math.max(zoomLevel - 0.25, 0.5);
+      applyTransform();
+    });
+    document.getElementById('zoomReset').addEventListener('click', () => {
+      zoomLevel = 1;
+      panX = 0;
+      panY = 0;
+      applyTransform();
+    });
+
+    // Mouse wheel zoom
+    container.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.1 : 0.1;
+      zoomLevel = Math.min(Math.max(zoomLevel + delta, 0.5), 5);
+      applyTransform();
+    }, { passive: false });
+
+    // Pan with mouse drag
+    let isDragging = false, startX, startY, startPanX, startPanY;
+    container.addEventListener('mousedown', (e) => {
+      if (e.target.tagName === 'A') return;
+      isDragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      startPanX = panX;
+      startPanY = panY;
+      wrapper.classList.add('dragging');
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      panX = startPanX + (e.clientX - startX);
+      panY = startPanY + (e.clientY - startY);
+      applyTransform();
+    });
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+      wrapper.classList.remove('dragging');
+    });
+
+    await renderPage();
+    window.addEventListener('resize', () => {
+      zoomLevel = 1; panX = 0; panY = 0;
+      applyTransform();
+      renderPage();
+    });
+  </script>
 
   <script>
     const sidebar = document.getElementById('sidebar');

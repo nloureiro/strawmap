@@ -7,51 +7,119 @@
   <meta name="description" content="A work-in-progress draft of the Ethereum L1 protocol roadmap, maintained by EF Architecture. Covering consensus, data, and execution layer priorities through 2030+.">
   <meta name="keywords" content="Ethereum, roadmap, strawmap, L1, protocol, EF, Ethereum Foundation, blockchain, consensus layer, execution layer, data layer">
   <meta name="author" content="Ethereum Foundation Protocol Team">
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="L1 Strawmap — Ethereum Draft Roadmap">
   <meta property="og:description" content="A work-in-progress draft of the Ethereum L1 protocol roadmap, maintained by EF Architecture.">
+  <meta property="og:url" content="https://strawmap-eth.netlify.app/v8.html">
   <meta property="og:site_name" content="Ethereum Strawmap">
+
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="L1 Strawmap — Ethereum Draft Roadmap">
   <meta name="twitter:description" content="A work-in-progress draft of the Ethereum L1 protocol roadmap, maintained by EF Architecture.">
+
+  <!-- Favicon (SVG) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 240'%3E%3Cpath d='M69.9988 239.096L0 136.454L69.9988 181.206L140 136.454L69.9988 239.096Z' fill='black'/%3E%3Cpath d='M140 121.991L69.9988 166.749L0 121.991L69.9988 0L140 121.991Z' fill='black'/%3E%3C/svg%3E">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://strawmap-eth.netlify.app/v8.html">
+
   <link rel="stylesheet" href="shared.css">
   <style>
     body { overflow: hidden; }
+
+    /* ── Site Header ── */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.90);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .site-header .eth-logo {
+      height: 28px;
+      width: auto;
+      flex-shrink: 0;
+    }
+    .site-header .header-title {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--fg);
+      line-height: 1.2;
+    }
+    .site-header .header-title span {
+      color: var(--fg-dim);
+      font-weight: 400;
+    }
+    .site-header .header-title a {
+      color: var(--fg);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .site-header .header-meta {
+      display: flex;
+      gap: 1.75rem;
+      font-size: 0.6875rem;
+      color: var(--fg-dim);
+      flex-shrink: 0;
+    }
+    .site-header .header-meta div {
+      line-height: 1.5;
+    }
+    .site-header .header-meta .label {
+      color: var(--fg-dim);
+    }
+    .site-header .header-meta a {
+      color: var(--fg);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
 
     /* ── Full-screen map ── */
     .map {
       position: fixed;
       inset: 0;
+      top: 52px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1rem;
+      background: #fff;
+      overflow: hidden;
     }
-    .map img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+    .map iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
     }
 
     /* ── Toggle button ── */
     .toggle-btn {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      z-index: 200;
       background: var(--fg);
       color: var(--bg);
       border: 1px solid var(--fg);
-      padding: 0.5rem 1rem;
+      padding: 0.35rem 0.75rem;
       font-family: var(--font-body);
-      font-size: 0.8125rem;
+      font-size: 0.6875rem;
       cursor: pointer;
       transition: background 0.2s, color 0.2s;
+      flex-shrink: 0;
+      margin-left: 0;
     }
     .toggle-btn:hover {
-      background: var(--fg);
-      color: var(--bg);
+      opacity: 0.8;
+    }
+    .toggle-btn--outline {
+      background: transparent;
+      color: var(--fg);
     }
 
     /* ── Scrim ── */
@@ -114,34 +182,82 @@
       margin-bottom: var(--space-md);
     }
 
-    .sidebar-footer {
-      margin-top: auto;
-      padding-top: var(--space-md);
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
-      font-size: 0.8125rem;
-      color: var(--fg-dim);
+    /* ── Footer (mobile only) ── */
+    .site-footer {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .site-header { gap: 0.75rem; }
+      .site-header .header-meta { display: none; }
+      .site-header .header-title { flex: 1; }
+      .site-footer {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 0.6rem 1.5rem;
+        background: rgba(255, 255, 255, 0.90);
+        backdrop-filter: blur(8px);
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        font-size: 0.6875rem;
+        color: var(--fg-dim);
+        justify-content: space-between;
+        align-items: center;
+      }
+      .site-footer div {
+        line-height: 1.5;
+      }
+      .site-footer .label {
+        color: var(--fg-dim);
+      }
+      .site-footer a {
+        color: var(--fg);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
     }
   </style>
 </head>
 <body>
 
+  <!-- Header -->
+  <header class="site-header">
+    <img src="eth.svg" alt="Ethereum" class="eth-logo">
+    <div class="header-title">
+      L1 strawmap <span>by</span> <a href="https://protocol.ethereum.org">EF Protocol</a>
+    </div>
+    <div class="header-meta">
+      <div>
+        <div class="label">maintained by EF Architecture</div>
+        <div><a href="https://x.com/adietrichs" target="_blank">Ansgar</a>, <a href="https://x.com/barnabemonnot" target="_blank">Barnab&eacute;</a>, <a href="https://x.com/fradamt" target="_blank">Francesco</a>, <a href="https://x.com/drakefjustin" target="_blank">Justin</a></div>
+      </div>
+      <div>
+        <div class="label">updated</div>
+        <div>Feb 18, 2026</div>
+      </div>
+    </div>
+    <div style="margin-left:auto;flex-shrink:0">
+      <button class="toggle-btn" id="toggleBtn">More info</button>
+    </div>
+  </header>
+
   <!-- Full-screen map -->
   <div class="map">
-    <img
-      src="https://docs.google.com/drawings/d/e/2PACX-1vTKUmQ-pIM1JFf5HEkDpKVt7OlROp7f1EtsuYffr83uE7DtXmREyFiMTqkiuMCOrvZcXKH1U5wgUP_g/pub?w=2964&h=2396"
-      alt="Ethereum Strawmap — Draft Roadmap"
-      draggable="false"
-    >
+    <iframe
+      src="https://docs.google.com/drawings/d/1zGpaQe9axN8VnSs4W8P_FOdcwsmqQFESQmeAicSOnQk/preview"
+      allowfullscreen
+    ></iframe>
   </div>
 
-  <!-- Toggle -->
-  <button class="toggle-btn" id="toggleBtn" style="display:none">More info</button>
 
-<!-- Scrim -->
-  <div class="scrim open" id="scrim"></div>
+  <!-- Scrim -->
+  <div class="scrim" id="scrim"></div>
 
   <!-- Sidebar -->
-  <aside class="sidebar open" id="sidebar" role="complementary" aria-label="About the Strawmap">
+  <aside class="sidebar" id="sidebar" role="complementary" aria-label="About the Strawmap">
     <button class="sidebar-close" id="closeBtn" aria-label="Close sidebar">Close ×</button>
 
     <h1>Welcome to the Strawmap</h1>
@@ -216,6 +332,18 @@
 
   </aside>
 
+  <!-- Footer (mobile only) -->
+  <footer class="site-footer">
+    <div>
+      <div class="label">maintained by EF Architecture</div>
+      <div><a href="https://x.com/adietrichs" target="_blank">Ansgar</a>, <a href="https://x.com/barnabemonnot" target="_blank">Barnab&eacute;</a>, <a href="https://x.com/fradamt" target="_blank">Francesco</a>, <a href="https://x.com/drakefjustin" target="_blank">Justin</a></div>
+    </div>
+    <div>
+      <div class="label">updated</div>
+      <div>Feb 18, 2026</div>
+    </div>
+  </footer>
+
   <script>
     const sidebar = document.getElementById('sidebar');
     const scrim   = document.getElementById('scrim');
@@ -225,14 +353,12 @@
     function openSidebar() {
       sidebar.classList.add('open');
       scrim.classList.add('open');
-      toggle.style.display = 'none';
       sidebar.focus();
     }
 
     function closeSidebar() {
       sidebar.classList.remove('open');
       scrim.classList.remove('open');
-      toggle.style.display = '';
     }
 
     toggle.addEventListener('click', openSidebar);
@@ -244,6 +370,11 @@
         closeSidebar();
       }
     });
+
+    // Open sidebar if URL has #faq
+    if (window.location.hash === '#faq') {
+      openSidebar();
+    }
   </script>
 </body>
 </html>
