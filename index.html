@@ -195,7 +195,8 @@
     @media (max-width: 768px) {
       .site-header { gap: 0.75rem; }
       .site-header .header-meta { display: none; }
-      .site-header .header-title { flex: 1; }
+      .site-header .header-title { flex: 1; font-size: 1rem; }
+      .site-header .toggle-btn { display: none; }
       .site-footer {
         display: flex;
         position: fixed;
@@ -339,10 +340,7 @@
       <div class="label">maintained by EF Architecture</div>
       <div><a href="https://x.com/adietrichs" target="_blank">Ansgar</a>, <a href="https://x.com/barnabemonnot" target="_blank">Barnab&eacute;</a>, <a href="https://x.com/fradamt" target="_blank">Francesco</a>, <a href="https://x.com/drakefjustin" target="_blank">Justin</a></div>
     </div>
-    <div>
-      <div class="label">updated</div>
-      <div>Feb 18, 2026</div>
-    </div>
+    <button class="toggle-btn" id="toggleBtnFooter">+ info</button>
   </footer>
 
   <script>
@@ -362,7 +360,10 @@
       scrim.classList.remove('open');
     }
 
+    const toggleFooter = document.getElementById('toggleBtnFooter');
+
     toggle.addEventListener('click', openSidebar);
+    toggleFooter.addEventListener('click', openSidebar);
     closeBtn.addEventListener('click', closeSidebar);
     scrim.addEventListener('click', closeSidebar);
 
