@@ -262,75 +262,100 @@
   <aside class="sidebar" id="sidebar" role="complementary" aria-label="About the Strawmap">
     <button class="sidebar-close" id="closeBtn" aria-label="Close sidebar">close ×</button>
 
-    <h1>Welcome to the Strawmap</h1>
-    <p class="intro">
-      This is a work-in-progress draft of the Ethereum roadmap, based on the rough consensus of many ecosystem members.
-      We're sharing it now because the Ethereum ecosystem works in public, and we want the community's feedback.
-    </p>
-
-    <div class="warning">
-      The strawmap is intended for advanced readers! But we have provided a short FAQ below with answers to common questions.
-    </div>
-
-    <p style="margin-top: var(--space-md); font-size: 0.875rem;">
-      <a href="https://docs.google.com/drawings/d/1GkcGfQv9kxgrYQMyu0BYGcZya0gIDG_wQ7GsFJEsdzY/edit?usp=sharing" class="link-out">View full version on Google Drawings</a>
-    </p>
-    <p style="font-size: 0.875rem;">
-      If you want more information about the Ethereum roadmap and how it is determined, check out
-      <a href="https://ethereum.org/roadmap" class="link-out">ethereum.org/roadmap</a>
-      or the recent update from the EF's Protocol team about 2026 priorities.
-    </p>
-    <p style="font-size: 0.875rem;">
-      We want to create additional resources that help explain the Ethereum roadmap to a wider audience.
-      If you have feedback, suggestions, or ideas for how to do this,
-      <a href="mailto:email@ethereum.org">reach out</a>.
+    <p style="font-size: 1rem; margin-bottom: var(--space-md);">
+      Welcome to strawmap.org, an Ethereum L1 roadmap initiative by <a href="https://protocol.ethereum.foundation" target="_blank">EF Protocol</a>.
     </p>
 
     <h2 style="margin-top: var(--space-md);">FAQ</h2>
     <dl class="faq-list">
-      <dt>What is the goal of the Ethereum roadmap?</dt>
+      <dt>What is the strawmap?</dt>
       <dd>
-        Ethereum is the world's leading blockchain, but there is still more to be done to improve it.
-        The Ethereum roadmap balances scaling improvements (so that more people can use it) and adding useful features,
-        while at the same time ensuring that Ethereum remains decentralized, resilient, and reliable.
+        The strawmap is a roadmap by the Ethereum Foundation that invites a holistic view of L1 protocol upgrades.
+        It began as a discussion starter at an EF workshop in Jan 2026, aimed at integrating lean Ethereum with
+        shorter-term initiatives. Its time horizon spans multiple years, well beyond the All Core Devs (ACD) focus,
+        which typically covers only the next two forks.
       </dd>
 
-      <dt>What are the priorities for the next upgrade, and why?</dt>
+      <dt>Where does the name "strawmap" come from?</dt>
       <dd>
-        "Glamsterdam" is the next scheduled upgrade. Targeted for 2026, Glamsterdam organizes its priorities into
-        three strategic tracks: scale, improve UX, and harden the L1. The upgrade aims to optimize processing speed,
-        reduce censorship risks, and support an increased gas limit through headliner features like Enshrined
-        Proposer-Builder Separation (ePBS) and Block-level Access Lists.
+        <p>"Strawmap" is a portmanteau of "strawman" and "roadmap". The strawman qualifier matters for two reasons:</p>
+        <p>It acknowledges the fundamental limits of drafting a roadmap in a highly decentralized ecosystem.
+        An "official" roadmap reflecting all Ethereum stakeholders is effectively impossible. Rough consensus
+        is an emergent, continuous process.</p>
+        <p>It underscores the document's work-in-progress nature. Although it originated in the EF Protocol cluster,
+        the ~100 members hold diverse and often differing views.</p>
+        <p>The strawmap is not attempting to predict the future. It is an accelerationist coordination tool that
+        sketches one reasonably coherent path among millions of possible futures.</p>
       </dd>
 
-      <dt>When will the roadmap be finalized?</dt>
+      <dt>What is the target audience?</dt>
       <dd>
-        The roadmap is always being updated with the community's rough consensus of priorities.
-        It may change over time as new opportunities and technologies are invented. But having a plan
-        for the future helps coordinate the work of the ecosystem.
+        <p>The strawmap is a dense, technical document aimed primarily at researchers, developers, and other participants
+        in Ethereum governance. Boxes with underlined text link to relevant EIPs and write-ups.</p>
+        <p>Digestible explainers will follow once the document incorporates community feedback and stabilizes.
+        More casual readers may be interested in the five north stars, the black boxes on the right:</p>
+        <ul>
+          <li><strong>fast L1:</strong> transaction inclusion and chain finality in seconds</li>
+          <li><strong>gigagas L1:</strong> 1 gigagas/sec (10K TPS) at L1, enabled by zkEVMs and real-time proving</li>
+          <li><strong>teragas L2:</strong> 1 gigabyte/sec (10M TPS) at L2, enabled by data availability sampling</li>
+          <li><strong>post quantum L1:</strong> century-scale cryptographic security, enabled by hash-based schemes</li>
+          <li><strong>private L1:</strong> privacy as a first-class citizen, unlocked by L1 shielded transfers</li>
+        </ul>
       </dd>
 
-      <dt>Who decides the roadmap?</dt>
+      <dt>What do the letters on top mean?</dt>
       <dd>
-        Ethereum's roadmap is a collaborative effort. Because no one is in charge of Ethereum, the community
-        uses norms of public discussion and rough consensus to align on priorities. This specific
-        strawmap is a work-in-progress draft proposed by the Ethereum Foundation for community feedback.
+        The strawmap is organized as a timeline, with forks progressing from left to right. Consensus layer forks
+        follow a star-based naming scheme with incrementing first letters: Altair, Bellatrix, Capella, Deneb, Electra,
+        Fulu, etc. Some upcoming strawmap forks such as Glamsterdam and Hegot&aacute; already have names. Other fork
+        names like I* and J* are placeholders, with I* pronounced "I star".
       </dd>
 
-      <dt>What's a "headliner"?</dt>
+      <dt>What do the various colors mean?</dt>
       <dd>
-        A "headliner" is an important feature that becomes the centrepiece or "flagship" for each upgrade.
-        Having a headliner allows the ecosystem to coordinate around priorities more easily.
+        <p>Upgrades are grouped into three layers: consensus (CL), data (DL), execution (EL)—C, D, E. Each layer
+        appears horizontally in a distinct color. Dark boxes denote headliners (see below), grey boxes indicate
+        offchain upgrades, and black boxes represent north stars. An explanatory legend appears at the bottom.</p>
+        <p>Within each layer boxes are further organized by theme and row. Arrows signal either hard technical
+        dependencies or natural fork progressions.</p>
       </dd>
 
-      <dt>What are the three strategic tracks?</dt>
+      <dt>What are headliners?</dt>
       <dd>
-        The three tracks — Scale, Improve UX, and Harden the L1 — organize work into clear themes.
-        "Scale" focuses on increasing throughput and reducing costs. "Improve UX" targets developer and
-        user experience. "Harden the L1" ensures the base layer stays secure, censorship-resistant,
-        and decentralized.
+        In the modern ACD process each fork typically has one consensus and one execution headliner. For example,
+        in Glamsterdam, those are ePBS and BALs respectively. The L* fork is an exception, shown with two headliners
+        tied to the lean consensus fork. L* tentatively aligning with lean consensus is, perhaps, a fateful coincidence.
+      </dd>
+
+      <dt>What is the strawmap time frame?</dt>
+      <dd>
+        The strawmap focuses on forks through the end of the decade. It outlines seven forks by 2029, roughly matching
+        a target cadence of one fork every six months. While grounded in current expectations, timelines should be
+        treated with healthy skepticism. The draft assumes human-first development, and AI-accelerated R&amp;D could
+        significantly compress schedules.
+      </dd>
+
+      <dt>Will the strawmap evolve?</dt>
+      <dd>
+        Yes, the strawmap is a living document which will evolve alongside community feedback, R&amp;D advancements,
+        and governance. Expect at least quarterly updates, with the latest revision date appearing on the document.
+      </dd>
+
+      <dt>Can I share feedback?</dt>
+      <dd>
+        Absolutely, feedback is encouraged. The strawmap is maintained by the EF Architecture team:
+        <a href="https://x.com/adietrichs" target="_blank">Ansgar</a>,
+        <a href="https://x.com/barnabemonnot" target="_blank">Barnab&eacute;</a>,
+        <a href="https://x.com/fradamt" target="_blank">Francesco</a>,
+        <a href="https://x.com/drakefjustin" target="_blank">Justin</a>.
+        Each has open DMs on X and can be reached at [first name]@ethereum.org.
+        You can also contact the team at <a href="mailto:strawmap@ethereum.org">strawmap@ethereum.org</a>.
       </dd>
     </dl>
+
+    <p style="margin-top: var(--space-md); font-size: 0.875rem;">
+      <a href="https://docs.google.com/drawings/d/1GkcGfQv9kxgrYQMyu0BYGcZya0gIDG_wQ7GsFJEsdzY/edit?usp=sharing" class="link-out">View full version on Google Drawings</a>
+    </p>
 
   </aside>
 
