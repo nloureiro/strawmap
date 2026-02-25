@@ -165,17 +165,17 @@
 
     .sidebar-close {
       align-self: flex-end;
-      background: none;
-      border: 1px solid rgba(0, 0, 0, 0.15);
-      color: var(--fg-dim);
+      background: var(--fg);
+      color: var(--bg);
+      border: 1px solid var(--fg);
       font-family: var(--font-body);
-      font-size: 0.8125rem;
+      font-size: 0.6875rem;
       padding: 0.35rem 0.75rem;
       cursor: pointer;
       margin-bottom: var(--space-md);
-      transition: color 0.2s;
+      transition: opacity 0.2s;
     }
-    .sidebar-close:hover { color: var(--fg); }
+    .sidebar-close:hover { opacity: 0.8; }
 
     .sidebar h1 {
       font-size: clamp(1.5rem, 4vw, 2rem);
@@ -233,7 +233,7 @@
   <header class="site-header">
     <img src="eth.svg" alt="Ethereum" class="eth-logo">
     <div class="header-title">
-      strawmap.org <span>by</span> <a href="https://protocol.ethereum.foundation">EF protocol</a>
+      strawmap.org <span>by</span> <a href="https://protocol.ethereum.foundation" target="_blank">EF protocol</a>
     </div>
     <div class="header-meta">
       <div>
@@ -260,7 +260,7 @@
 
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar" role="complementary" aria-label="About the Strawmap">
-    <button class="sidebar-close" id="closeBtn" aria-label="Close sidebar">Close ×</button>
+    <button class="sidebar-close" id="closeBtn" aria-label="Close sidebar">close ×</button>
 
     <h1>Welcome to the Strawmap</h1>
     <p class="intro">
@@ -353,11 +353,13 @@
       sidebar.classList.add('open');
       scrim.classList.add('open');
       sidebar.focus();
+      history.replaceState(null, '', '/faq');
     }
 
     function closeSidebar() {
       sidebar.classList.remove('open');
       scrim.classList.remove('open');
+      history.replaceState(null, '', '/');
     }
 
     const toggleFooter = document.getElementById('toggleBtnFooter');
@@ -373,8 +375,8 @@
       }
     });
 
-    // Open sidebar if URL has #faq
-    if (window.location.hash === '#faq') {
+    // Open sidebar if URL is /faq or has #faq
+    if (window.location.pathname === '/faq' || window.location.hash === '#faq') {
       openSidebar();
     }
   </script>
