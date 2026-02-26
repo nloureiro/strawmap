@@ -1,2 +1,5 @@
 # Local Netlify folder
 .netlify
+
+# Temp build artifacts from update-svgs.sh
+.tmp-svg-build/
