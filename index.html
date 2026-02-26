@@ -94,16 +94,79 @@
       position: fixed;
       inset: 0;
       top: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       background: #fff;
       overflow: hidden;
     }
-    .map iframe {
+
+    /* ── SVG viewport ── */
+    .map-viewport {
+      position: relative;
       width: 100%;
       height: 100%;
-      border: 0;
+      overflow: hidden;
+      touch-action: none;
+    }
+    .map-loading, .map-error {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+      color: var(--fg-dim);
+      text-align: center;
+      padding: 2rem;
+    }
+    .map-error a {
+      color: var(--fg);
+      text-decoration: underline;
+    }
+    .map-search-bar {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.2);
+      border-radius: 6px;
+      padding: 4px 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+    }
+    .map-search-bar input {
+      border: none;
+      outline: none;
+      font-family: inherit;
+      font-size: inherit;
+      width: 180px;
+      padding: 2px 4px;
+      background: transparent;
+    }
+    .map-search-bar .search-count {
+      color: var(--fg-dim);
+      font-size: 0.6875rem;
+      white-space: nowrap;
+      min-width: 55px;
+      text-align: center;
+    }
+    .map-search-bar button {
+      background: none;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 3px;
+      cursor: pointer;
+      padding: 2px 6px;
+      font-size: 0.6875rem;
+      color: var(--fg-dim);
+      line-height: 1;
+      font-family: inherit;
+    }
+    .map-search-bar button:hover {
+      background: rgba(0,0,0,0.05);
+      color: var(--fg);
     }
 
     /* ── Toggle button ── */
@@ -254,11 +317,9 @@
   </header>
 
   <!-- Full-screen map -->
-  <div class="map">
-    <iframe
-      src="https://docs.google.com/drawings/d/1GkcGfQv9kxgrYQMyu0BYGcZya0gIDG_wQ7GsFJEsdzY/preview"
-      allowfullscreen
-    ></iframe>
+  <div class="map" id="mapContainer">
+    <div class="map-loading" id="mapLoading">Loading strawmap…</div>
+    <div class="map-viewport" id="mapViewport"></div>
   </div>
 
 
@@ -392,6 +453,14 @@
     <button class="toggle-btn" id="toggleBtnFooter">+ info</button>
   </footer>
 
+  <script src="pan-zoom.js"></script>
+  <script>
+    PanZoom.init('mapViewport', {
+      svgUrl: '/svg/main.svg',
+      fallbackUrl: 'https://docs.google.com/drawings/d/1GkcGfQv9kxgrYQMyu0BYGcZya0gIDG_wQ7GsFJEsdzY/edit?usp=sharing',
+      loadingEl: 'mapLoading',
+    });
+  </script>
   <script>
     const sidebar = document.getElementById('sidebar');
     const scrim   = document.getElementById('scrim');
